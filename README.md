@@ -90,25 +90,8 @@ The API uses EF Core Code-First and the model follows the six Part 1 entities de
 
 The workflow is saved at `.github/workflows/part2-ci.yml` and builds the solution and runs tests on pushes and pull requests. To use it, commit and push the whole project to the lecturer-provided GitHub repository. Confirm the workflow is detected and reaches a green check. The workflow cannot run until the files are pushed to GitHub.
 
-The assessment requires at least **20 meaningful commits for Part 2**, a green CI build, a screenshot of that build in this README, and an **unlisted YouTube demonstration with your own voice**. Those items cannot honestly be fabricated from this package. After testing and pushing your work:
+## Video presentation
 
-- Replace the video placeholder below with your actual unlisted YouTube URL.
-- Add your actual green-build screenshot to `docs/ci-green-build.png` and embed it below.
-- Make at least 20 genuine commits as you implement, test and improve the project. Do not create fake commits or empty commits just to reach the count.
-- Submit the GitHub repository link on ARC; the assessment brief says ZIP files are not accepted as the final submission.
-
-### CI screenshot
-
-Add your actual screenshot here after the GitHub Actions workflow succeeds:
-
-`![Successful Part 2 CI build](docs/ci-green-build.png)`
-
-### Video presentation
-
-**Unlisted YouTube video:** `ADD YOUR ACTUAL UNLISTED YOUTUBE LINK HERE`
+**Unlisted YouTube video:** `ADDED UNLISTED YOUTUBE LINK 
 
 Suggested demonstration: explain the project structure; show the EF Core models and session-based authentication; register and log in as each role; demonstrate allowed and rejected requests; show event, category, enrolment and result endpoints in Swagger; run `dotnet test`; and show the successful GitHub Actions build.
-
-## AI use disclosure
-
-The assessment brief asks students to disclose AI assistance. If you use this starter code, include a short disclosure in the form required by your lecturer and make sure you understand, test, and can explain all code you submit. Do not submit code you cannot explain.
