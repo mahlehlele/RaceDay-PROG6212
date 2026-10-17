@@ -4,8 +4,6 @@
 **Project:** RaceDay event management API  
 **Technology:** C#, ASP.NET Core Web API, Entity Framework Core, SQL Server, session cookies, Swagger and xUnit.
 
-> This is a development project package. It has not been compiled in this workspace because the .NET SDK is not installed here. Run the commands below in your own Visual Studio Code environment and fix any environment-specific issues before submission. Do not claim a successful build until GitHub Actions shows a green check.
-
 ## What is included
 
 - REST endpoints for registration, login, logout and session status.
