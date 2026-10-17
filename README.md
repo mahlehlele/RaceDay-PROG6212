@@ -91,5 +91,3 @@ The workflow is saved at `.github/workflows/part2-ci.yml` and builds the solutio
 ## Video presentation
 
 **Unlisted YouTube video:** `ADDED UNLISTED YOUTUBE LINK 
-
-Suggested demonstration: explain the project structure; show the EF Core models and session-based authentication; register and log in as each role; demonstrate allowed and rejected requests; show event, category, enrolment and result endpoints in Swagger; run `dotnet test`; and show the successful GitHub Actions build.
