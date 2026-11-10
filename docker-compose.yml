@@ -1,0 +1,23 @@
+services:
+  raceday-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: api
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__RaceDayDatabase: "Server=host.docker.internal,1433;Database=RaceDayDb;User Id=sa;Password=${SQL_SA_PASSWORD};TrustServerCertificate=True"
+  raceday-mvc:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: mvc
+    ports:
+      - "8081:8081"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      Api__BaseUrl: "http://raceday-api:8080/"
+    depends_on:
+      - raceday-api

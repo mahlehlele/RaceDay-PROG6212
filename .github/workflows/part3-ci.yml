@@ -1,0 +1,20 @@
+name: RaceDay Part 3 Build and Test
+on:
+  push:
+    branches: [ "main", "master", "part2", "part3" ]
+  pull_request:
+    branches: [ "main", "master", "part2", "part3" ]
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+      - name: Restore
+        run: dotnet restore RaceDay.sln
+      - name: Build API and MVC
+        run: dotnet build RaceDay.sln --configuration Release --no-restore
+      - name: Run API tests
+        run: dotnet test tests/RaceDay.Tests/RaceDay.Tests.csproj --configuration Release --no-build

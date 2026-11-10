@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaceDay.Api", "src\RaceDay.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaceDay.Tests", "tests\RaceDay.Tests\RaceDay.Tests.csproj", "{7BCAFA70-0F63-4E4E-9B11-A11E4F9A1002}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RaceDay.Mvc", "src\\RaceDay.Mvc\\RaceDay.Mvc.csproj", "{A6C1C7E2-9F31-4C56-9B51-9E2A6D12A730}"
+EndProject
 Global
  GlobalSection(SolutionConfigurationPlatforms) = preSolution
   Debug|Any CPU = Debug|Any CPU

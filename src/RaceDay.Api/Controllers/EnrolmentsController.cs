@@ -1,0 +1,14 @@
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using RaceDay.Api.Data;
+using RaceDay.Api.Models;
+namespace RaceDay.Api.Controllers;
+[Route("api/enrolments")]
+public class EnrolmentsController(RaceDayDbContext db) : ApiControllerBase
+{
+    public record EnrolmentRequest(int EventId, int CategoryId);
+    [HttpGet("mine")] public async Task<IActionResult> Mine() { if(RequireRole("Participant") is IActionResult denied)return denied; return Ok(await db.Enrolments.AsNoTracking().Where(x=>x.ParticipantId==CurrentUserId).Include(x=>x.Event).Include(x=>x.Category).Select(x=>new{x.EnrolmentId,x.EventId,EventName=x.Event!.Name,x.CategoryId,CategoryName=x.Category!.Name,x.Status,x.EnrolledAt}).ToListAsync()); }
+    [HttpGet("event/{eventId:int}")] public async Task<IActionResult> ForEvent(int eventId) { if(RequireRole("Organiser") is IActionResult denied)return denied; var e=await db.Events.FindAsync(eventId); if(e is null)return NotFound(); if(e.OrganiserId!=CurrentUserId)return Forbid(); return Ok(await db.Enrolments.AsNoTracking().Where(x=>x.EventId==eventId).Include(x=>x.Participant).Include(x=>x.Category).Select(x=>new{x.EnrolmentId,x.ParticipantId,ParticipantName=x.Participant!.FirstName+" "+x.Participant.LastName,x.CategoryId,CategoryName=x.Category!.Name,x.Status,x.EnrolledAt}).ToListAsync()); }
+    [HttpPost] public async Task<IActionResult> Create(EnrolmentRequest request) { if(RequireRole("Participant") is IActionResult denied)return denied; var e=await db.Events.FindAsync(request.EventId); if(e is null)return NotFound(new{message="Event not found."}); var c=await db.Categories.FindAsync(request.CategoryId); if(c is null || c.EventId!=request.EventId)return BadRequest(new{message="Choose a category belonging to the selected event."}); if(e.EventDate<DateTime.UtcNow.Date)return Conflict(new{message="Past events cannot be entered."}); if(await db.Enrolments.AnyAsync(x=>x.ParticipantId==CurrentUserId && x.EventId==request.EventId))return Conflict(new{message="You have already entered this event."}); var enrolment=new Enrolment{ParticipantId=CurrentUserId!.Value,EventId=request.EventId,CategoryId=request.CategoryId};db.Enrolments.Add(enrolment);await db.SaveChangesAsync();return CreatedAtAction(nameof(Mine),new{id=enrolment.EnrolmentId},new{enrolment.EnrolmentId,enrolment.ParticipantId,enrolment.EventId,enrolment.CategoryId,enrolment.Status,enrolment.EnrolledAt}); }
+    [HttpDelete("{id:int}")] public async Task<IActionResult> Cancel(int id) { if(RequireRole("Participant") is IActionResult denied)return denied;var en=await db.Enrolments.FindAsync(id);if(en is null)return NotFound();if(en.ParticipantId!=CurrentUserId)return Forbid();if(await db.Results.AnyAsync(x=>x.EnrolmentId==id))return Conflict(new{message="An enrolment with a published result cannot be cancelled."});db.Enrolments.Remove(en);await db.SaveChangesAsync();return NoContent(); }
+}
